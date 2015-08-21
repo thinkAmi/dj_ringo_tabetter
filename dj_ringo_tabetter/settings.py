@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jinja',
+    'apps.tweets',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,18 +76,18 @@ WSGI_APPLICATION = 'dj_ringo_tabetter.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-# dj_database_url�ɂ��Database�ݒ�
+# dj_database_urlによるDatabase設定
 import dj_database_url
-# Heroku���ɂ�`DYNO`���ϐ�������O��
+# Heroku環境には`DYNO`環境変数がある前提
 if 'DYNO' in os.environ:
-    # Heroku��
+    # Heroku環境
     DATABASES = {
         # dj_database_url.config()
         'default': dj_database_url.config()
     }
 
 else:
-    # �J�����̏ꍇ�Aengine���n���Ȃ��ƃG���[�ƂȂ�
+    # 開発環境の場合、engineも渡さないとエラーとなる
     DATABASES = {
         'default':
             dj_database_url.config(
@@ -130,3 +131,9 @@ TEMPLATE_LOADERS = (
     'django_jinja.loaders.FileSystemLoader',
 
 )
+
+
+# dotenvでTwitterAPIのkeyやsecretを環境変数にセットしておく
+# ここで書いておけば、commandsなどでも有効になる
+import dotenv
+dotenv.read_dotenv(os.path.join(BASE_DIR, '.env'))
