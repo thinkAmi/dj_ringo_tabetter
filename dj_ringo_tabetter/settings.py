@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_jinja',
     'apps.tweets',
+    'apps.api',
 )
 
 MIDDLEWARE_CLASSES = (
