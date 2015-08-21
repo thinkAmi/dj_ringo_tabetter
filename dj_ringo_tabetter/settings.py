@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django_jinja',
     'apps.tweets',
     'apps.api',
+    'apps.highcharts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,19 +58,30 @@ ROOT_URLCONF = 'dj_ringo_tabetter.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "match_extension": ".jinja2",
+        }
     },
+    # なくてもいいけど、adminページがどうなるのかな
+    # {
+    #     'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    #     'DIRS': [],
+    #     'APP_DIRS': True,
+    #     'OPTIONS': {
+    #         'context_processors': [
+    #             'django.template.context_processors.debug',
+    #             'django.template.context_processors.request',
+    #             'django.contrib.auth.context_processors.auth',
+    #             'django.contrib.messages.context_processors.messages',
+    #         ],
+    #     },
+    # },
 ]
+
+# デフォルトのjinja2テンプレートの拡張子
+DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2'
 
 WSGI_APPLICATION = 'dj_ringo_tabetter.wsgi.application'
 
@@ -123,6 +135,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Djangoが静的ファイルとして認識するフォルダを指定
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
