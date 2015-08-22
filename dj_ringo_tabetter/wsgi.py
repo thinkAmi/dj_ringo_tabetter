@@ -14,3 +14,7 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dj_ringo_tabetter.settings")
 
 application = get_wsgi_application()
+
+# whitenoise用に追加
+from whitenoise.django import DjangoWhiteNoise
+application = DjangoWhiteNoise(application)

@@ -42,6 +42,11 @@ INSTALLED_APPS = (
     'apps.api',
     'apps.highcharts',
 )
+# 開発環境がWindowsでgunicornが使えないことから、
+# herokuのみgunicornを使えるように設定
+if 'DYNO' in os.environ:
+    INSTALLED_APPS += ('gunicorn',)
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -155,3 +160,11 @@ TEMPLATE_LOADERS = (
 # ここで書いておけば、commandsなどでも有効になる
 import dotenv
 dotenv.read_dotenv(os.path.join(BASE_DIR, '.env'))
+
+
+# # Herokuでstaticファイルを配信するためのwhitenoise向けの設定
+# 内部でSTATIC_ROOTを見てるっぽいので、無いとエラーになる
+STATIC_ROOT = 'staticfiles'
+
+# gzip不要ならいらないかも
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
