@@ -68,7 +68,8 @@ class Command(BaseCommand):
                     for c in self.cultivars:
                         # 条件を満たすリストの要素に対して処理を行うために内包表記を使ってるけど
                         # 内包表記をこのように使って良いのかは分からない...
-                        [self.save_tweets(t, c) for t in ringo_tweets if c['Name'] in t.text]
+                        # バッククォート(`)で囲まれた部分を品種とみなす
+                        [self.save_tweets(t, c) for t in ringo_tweets if "`" + c['Name'] + "`" in t.text]
 
                 # 検索済idの保存
                 self.save_last_search(self.last_search, statuses[0].id)
