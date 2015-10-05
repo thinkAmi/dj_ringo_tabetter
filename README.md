@@ -7,8 +7,15 @@
 - データベースに保存されいてる集計情報をJSONの形で返すAPI
 - JSON APIの結果をHighchartsでグラフ表示
 
-　
-また、Herokuへデプロイしてあります。
+　  
+ツイートは、先頭に`[リンゴ]`があり、品種名を `` ` ``(バッククォート)で囲んであるものが対象となります。以下がその例です。
+
+```
+[リンゴ]今日は `シナノゴールド` を食べた。シャリシャリしていておいしかった。
+```
+
+　  
+また、Herokuへデプロイしてあります。  
 [りんごたべたー](http://ringo-tabetter.herokuapp.com/hc/total)
 
 　
@@ -37,9 +44,9 @@
 - Twitterのcreated_atにTimezoneを持たせるため
  - pytz 2015.4
 - Herokuでの動作用
-- gunicorn 19.3.0
-   - gunicornはWindowsでは動作しないので、Heroku上のみ
- - whitenoise 2.0.3
+  - gunicorn 19.3.0
+    - gunicornはWindowsでは動作しないので、Heroku上のみ
+  - whitenoise 2.0.3
 
 　
 # セットアップ
