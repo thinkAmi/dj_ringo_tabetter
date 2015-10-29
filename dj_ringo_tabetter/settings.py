@@ -63,13 +63,16 @@ ROOT_URLCONF = 'dj_ringo_tabetter.urls'
 
 TEMPLATES = [
     {
-        "BACKEND": "django_jinja.backend.Jinja2",
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "match_extension": ".jinja2",
+        'BACKEND': 'django_jinja.backend.Jinja2',
+        'DIRS': [
+            os.path.join(BASE_DIR,  'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'match_extension': '.jinja2',
         }
     },
-    # なくてもいいけど、adminページがどうなるのかな
+    # 今のところ不要なので、コメントアウトしておく
     # {
     #     'BACKEND': 'django.template.backends.django.DjangoTemplates',
     #     'DIRS': [],
@@ -114,13 +117,6 @@ else:
             )
     }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -146,14 +142,20 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'templates'),
-)
-TEMPLATE_LOADERS = (
-    'django_jinja.loaders.AppLoader',
-    'django_jinja.loaders.FileSystemLoader',
+# Django1.8より、TEMPLATE_***は廃止になったので、TEMPLATESへ移動
+# https://docs.djangoproject.com/en/1.8/ref/templates/upgrading/#the-templates-settings
+# TEMPLATE_DIRS = (
+#     os.path.join(BASE_DIR,  'templates'),
+# )
 
-)
+# django-jinjaのドキュメントより、TEMPLATESへloadersの記載は不要
+# http://niwinz.github.io/django-jinja/#_quick_setup_2
+# 逆に、記載してしまうと`__init__() got an unexpected keyword argument 'loaders'` エラー
+# TEMPLATE_LOADERS = (
+#     'django_jinja.loaders.AppLoader',
+#     'django_jinja.loaders.FileSystemLoader',
+#
+# )
 
 
 # dotenvでTwitterAPIのkeyやsecretを環境変数にセットしておく

@@ -4,6 +4,7 @@
 .env
 Scripts/
 pyvenv.cfg
+pip-selfcheck.json
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

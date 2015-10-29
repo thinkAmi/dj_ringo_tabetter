@@ -27,8 +27,9 @@
 
 　
 # 使用しているPythonパッケージと目的
+
 - DjangoでJinja2テンプレートを使うため
- - Django 1.8.4
+ - Django 1.8.5
  - Jinja2 2.8
  - django-jinja 1.4.1
 - りんご品種を書いたYAMLファイルを読み込むため
@@ -43,6 +44,8 @@
    - Herokuでは環境変数へ設定
 - Twitterのcreated_atにTimezoneを持たせるため
  - pytz 2015.4
+- エラー発生時にエラーメッセージをslackへpostするため
+ - slacker 0.7.4
 - Herokuでの動作用
   - gunicorn 19.3.0
     - gunicornはWindowsでは動作しないので、Heroku上のみ
@@ -53,9 +56,10 @@
 1. git clone
 2. `heroku create <your application name>`
 3. `git push heroku master`
-4. `heroku config:set USER_ID=<user_id> TWITTER_CONSUMER_KEY=<your_key> TWITTER_CONSUMER_SECRET=<your_secret>`
-5. `heroku run python manage.py migrate`
-6. Heroku Schedulerを追加、`python manage.py gather_tweets`と設定
+4. `heroku config:set USER_ID=<your twitter id> TWITTER_CONSUMER_KEY=<your consumer key> TWITTER_CONSUMER_SECRET=<your consumer secret>`
+5. `heroku config:set SLACK_TOKEN=<your slack token> SLACK_CHANNEL=<your slack channel, example: ringo-tabetter>`
+6. `heroku run python manage.py migrate`
+7. Heroku Schedulerを追加、`python manage.py gather_tweets`と設定
 
 　
 # ライセンス
