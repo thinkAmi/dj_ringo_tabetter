@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 import tweepy
+from slacker import Slacker
 import os
 import re
 import pytz
@@ -34,15 +35,19 @@ class Command(BaseCommand):
     def gather_tweets(self):
         '''ツイートを取得し、idの降順にソートする'''
         # tweepyにて関連するツイートを取得
-        auth = tweepy.AppAuthHandler(
-            os.environ['TWITTER_CONSUMER_KEY'],
-            os.environ['TWITTER_CONSUMER_SECRET'])
-        api = tweepy.API(auth)
+        try:
+            auth = tweepy.AppAuthHandler(
+                os.environ['TWITTER_CONSUMER_KEY'],
+                os.environ['TWITTER_CONSUMER_SECRET'])
+            api = tweepy.API(auth)
 
-        options = self.get_api_options(self.last_search)
-        statuses = tweepy.Cursor(api.user_timeline, **options).items(TWEET_COUNT)
+            options = self.get_api_options(self.last_search)
+            statuses = tweepy.Cursor(api.user_timeline, **options).items(TWEET_COUNT)
 
-        return sorted(statuses, key=lambda s: s.text, reverse=True)
+            return sorted(statuses, key=lambda s: s.text, reverse=True)
+
+        except Exception:
+            self.log(traceback.format_exc())
 
 
     def get_api_options(self, last_search):
@@ -78,7 +83,7 @@ class Command(BaseCommand):
 
         # 例外が発生した場合は、Djangoが自動的にロールバックする
         except Exception:
-            traceback.print_exc()
+            self.log(traceback.format_exc())
             print('rollback')
 
 
@@ -111,3 +116,12 @@ class Command(BaseCommand):
             }
             l = LastSearch(**arg)
             l.save()
+
+
+    def log(self, log_message):
+        '''ログを出力し、設定されていればSlackへも通知する'''
+        print(log_message)
+
+        if os.environ['SLACK_TOKEN']:
+            slack = Slacker(os.environ['SLACK_TOKEN'])
+            slack.chat.post_message(os.environ['SLACK_CHANNEL'], log_message)
