@@ -10,3 +10,10 @@ class TweetsFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = 'tweets.Tweets'
+
+
+class LastSearchFactory(factory.django.DjangoModelFactory):
+    prev_since_id = factory.Sequence(lambda n: n)
+
+    class Meta:
+        model = 'tweets.LastSearch'

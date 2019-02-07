@@ -36,19 +36,23 @@ class Command(BaseCommand):
         '''ツイートを取得し、idの降順にソートする'''
         # tweepyにて関連するツイートを取得
         try:
-            auth = tweepy.AppAuthHandler(
-                os.environ['TWITTER_CONSUMER_KEY'],
-                os.environ['TWITTER_CONSUMER_SECRET'])
-            api = tweepy.API(auth)
-
-            options = self.get_api_options(self.last_search)
-            statuses = tweepy.Cursor(api.user_timeline, **options).items(TWEET_COUNT)
-
+            statuses = self._get_statuses_from_api()
             return sorted(statuses, key=lambda s: s.text, reverse=True)
 
         except Exception:
             self.log(traceback.format_exc())
 
+    def _get_statuses_from_api(self):
+        """ Twitter APIよりツイートを取得する
+            テストしやすいよう、プライベートメソッドとして切り出した
+        """
+        auth = tweepy.AppAuthHandler(
+            os.environ['TWITTER_CONSUMER_KEY'],
+            os.environ['TWITTER_CONSUMER_SECRET'])
+        api = tweepy.API(auth)
+
+        options = self.get_api_options(self.last_search)
+        return tweepy.Cursor(api.user_timeline, **options).items(TWEET_COUNT)
 
     def get_api_options(self, last_search):
         '''Twitter APIで使うオプションの内容を取得'''

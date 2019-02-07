@@ -7,7 +7,7 @@ import pytest
 import pytz
 from django.test.client import RequestFactory
 
-from apps.api.tests.factories import TweetsFactory
+from apps.tweets.tests.factories import TweetsFactory
 
 
 class TestRenderJsonResponse:

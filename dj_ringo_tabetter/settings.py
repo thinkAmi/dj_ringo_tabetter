@@ -109,12 +109,22 @@ if 'DYNO' in os.environ:
 
 else:
     # 開発環境の場合、engineも渡さないとエラーとなる
+    # DATABASES = {
+    #     'default':
+    #         dj_database_url.config(
+    #             default='postgres://postgres:postgres@127.0.0.1:5432/ringo_tabetter_py',
+    #             engine=dj_database_url.SCHEMES['postgresql']
+    #         )
+    # }
     DATABASES = {
-        'default':
-            dj_database_url.config(
-                default='postgres://postgres:postgres@127.0.0.1:5432/ringo_tabetter_py',
-                engine=dj_database_url.SCHEMES['postgresql']
-            )
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'ringo_tabetter_py',
+            'USER': 'ringo',
+            'PASSWORD': 'postgres',
+            'HOST': '127.0.0.1',
+            'PORT': '19876',
+        }
     }
 
 
