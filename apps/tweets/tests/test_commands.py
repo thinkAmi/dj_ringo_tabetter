@@ -2,6 +2,8 @@ from collections import namedtuple
 from datetime import datetime
 
 import pytest
+from django.core.management import call_command
+from unittest.mock import Mock, patch
 
 from apps.tweets.tests.factories import LastSearchFactory
 
@@ -167,3 +169,23 @@ class TestGatherTweets:
         last_search = LastSearch.objects.all()
         assert len(last_search) == 1
         assert last_search.first().prev_since_id == 3
+
+    def test_call_command_Djangoコマンドを直接呼ぶ(self):
+        from apps.tweets.management.commands import gather_tweets
+
+        with patch.object(
+                gather_tweets, 'Apple', return_value=Mock()) as apple, \
+            patch.object(
+                gather_tweets.Command, 'get_last_search') as mock_get, \
+            patch.object(
+                gather_tweets.Command, 'gather_tweets', return_value='foo') as mock_gather, \
+            patch.object(
+                gather_tweets.Command, 'save_with_transaction') as mock_save:
+
+            # 作成したDjangoコマンドを直接呼ぶ
+            call_command('gather_tweets')
+
+            # コマンドの内部で呼ばれるはずのメソッドが、想定通り呼ばれているかをチェック
+            mock_get.assert_called_with()
+            mock_gather.assert_called_with()
+            mock_save.assert_called_with('foo')  # mockで foo を返しているので、それが使われるか
