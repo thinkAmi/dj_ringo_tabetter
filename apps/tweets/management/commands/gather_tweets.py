@@ -37,7 +37,7 @@ class Command(BaseCommand):
         # tweepyにて関連するツイートを取得
         try:
             statuses = self._get_statuses_from_api()
-            return sorted(statuses, key=lambda s: s.text, reverse=True)
+            return sorted(statuses, key=lambda s: s.id, reverse=True)
 
         except Exception:
             self.log(traceback.format_exc())
