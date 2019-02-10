@@ -4,16 +4,18 @@ import json
 from collections import OrderedDict
 from apps.tweets.models import Tweets
 from libs.cultivars import Apple
+from typing import List
 
-def render_json_response(request, data, status=None):
-    '''responseをJSONで返す'''
+
+def render_json_response(request, data: List[dict], status=None) -> HttpResponse:
+    """ responseをJSONで返す """
     json_str = json.dumps(data, ensure_ascii=False, indent=2)
     response = HttpResponse(json_str, content_type='application/json; charset=utf-8', status=status)
     return response
 
 
 def total_apples(request):
-    '''リンゴの品種別合計数量を返す'''
+    """ リンゴの品種別合計数量を返す """
     results = []
     apples = Apple()
 
@@ -31,7 +33,7 @@ def total_apples(request):
 
 
 def total_apples_by_month(request):
-    '''リンゴの月別品種別合計数量を返す'''
+    """ リンゴの月別品種別合計数量を返す """
     results = []
     apples = Apple()
     tweets = Tweets.objects.extra(select={ 'month': "date_part('month', tweeted_at)::int" }) \
