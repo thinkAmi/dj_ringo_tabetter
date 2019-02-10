@@ -1,17 +1,17 @@
-from django.core.management.base import BaseCommand
-import tweepy
-from slacker import Slacker
 import os
 import re
-import pytz
 import traceback
 from typing import List
 
+import pytz
+import tweepy
+from django.core.management.base import BaseCommand
+from django.db import transaction
+from slacker import Slacker
 from tweepy.cursor import ItemIterator
 
+from apps.cultivar.apple import Apple
 from apps.tweets.models import Tweets, LastSearch
-from libs.cultivars import Apple
-from django.db import transaction
 
 LOCAL_TIMEZONE = pytz.timezone('Asia/Tokyo')
 # 一日に200ツイートはしないはず...
@@ -75,15 +75,14 @@ class Command(BaseCommand):
         try:
             with transaction.atomic():
                 # リンゴ情報を含むツイートのみを保存
-                ringo_tweets = self.delete_unrelated_tweets(statuses)
-                if ringo_tweets:
+                tweets = self.delete_unrelated_tweets(statuses)
+                if tweets:
                     # この方法だとcreated_at順ではなく品種順になるけど、
                     # DB上特に困ることはないので、このままで良い
                     for c in self.cultivars:
-                        # 条件を満たすリストの要素に対して処理を行うために内包表記を使ってるけど
-                        # 内包表記をこのように使って良いのかは分からない...
+                        # 条件を満たすリストの要素に対して処理を行うために内包表記を使ってる
                         # バッククォート(`)で囲まれた部分を品種とみなす
-                        [self.save_tweets(t, c) for t in ringo_tweets if "`" + c['Name'] + "`" in t.text]
+                        [self.save_tweets(t, c) for t in tweets if "`" + c['Name'] + "`" in t.text]
 
                 # 検索済idの保存
                 self.save_last_search(self.last_search, statuses[0].id)
@@ -97,7 +96,7 @@ class Command(BaseCommand):
 
     def delete_unrelated_tweets(self, statuses: List) -> List:
         """ ツイートのうち、[リンゴ]で始まるもの以外を削除 """
-        pattern = re.compile('\[リンゴ\]')
+        pattern = re.compile(r'\[リンゴ\]')
         return [x for x in statuses if pattern.match(x.text)]
 
     def save_tweets(self, twitter_status, cultivar: dict):
@@ -120,8 +119,8 @@ class Command(BaseCommand):
             arg = {
                 'prev_since_id': prev_since_id
             }
-            l = LastSearch(**arg)
-            l.save()
+            obj = LastSearch(**arg)
+            obj.save()
 
     def log(self, log_message: str):
         """ ログを出力し、設定されていればSlackへも通知する """

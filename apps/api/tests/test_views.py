@@ -1,39 +1,11 @@
 """ とりあえず正常系のテストだけ：異常系は起こらないはず... """
 
-from collections import OrderedDict
 from datetime import datetime
 
 import pytest
 import pytz
-from django.test.client import RequestFactory
 
 from apps.tweets.tests.factories import TweetsFactory
-
-
-class TestRenderJsonResponse:
-    """ render_json_response()のテスト """
-
-    def test_直接呼ぶ(self):
-        from apps.api.views import render_json_response
-
-        request = RequestFactory()
-
-        # dumpした時の順番を一定にするため、OrderedDictを使う
-        data = OrderedDict([
-            ('foo', 'シナノゴールド'),
-            ('bar', ['ham', 'ハム']),
-        ])
-
-        expected = '''{
-  "foo": "シナノゴールド",
-  "bar": [
-    "ham",
-    "ハム"
-  ]
-}'''
-
-        actual = render_json_response(request, data)
-        assert actual.content.decode('utf-8') == expected
 
 
 @pytest.fixture
@@ -48,17 +20,17 @@ def total_apples_expected():
     return '''[
   {
     "name": "シナノドルチェ",
-    "quantity": 2,
+    "y": 2,
     "color": "AntiqueWhite"
   },
   {
     "name": "シナノゴールド",
-    "quantity": 5,
+    "y": 5,
     "color": "Gold"
   },
   {
     "name": "フジ",
-    "quantity": 3,
+    "y": 3,
     "color": "Red"
   }
 ]'''
@@ -68,15 +40,7 @@ def total_apples_expected():
 class TestTotalApples:
     """ total_apples() のテスト """
 
-    def test_直接呼ぶ(self, total_apples_expected):
-        from apps.api.views import total_apples
-
-        request = RequestFactory()
-        actual = total_apples(request)
-
-        assert actual.content.decode('utf-8') == total_apples_expected
-
-    def test_Client経由で呼ぶ(self, client, total_apples_expected):
+    def test_get(self, client, total_apples_expected):
         actual = client.get('/api/v1/total/')
         assert actual.content.decode('utf-8') == total_apples_expected
 
@@ -100,7 +64,7 @@ def total_apples_by_month_expected():
     return '''[
   {
     "name": "フジ",
-    "quantity": [
+    "data": [
       1,
       1,
       1,
@@ -118,7 +82,7 @@ def total_apples_by_month_expected():
   },
   {
     "name": "シナノゴールド",
-    "quantity": [
+    "data": [
       1,
       1,
       1,
@@ -136,7 +100,7 @@ def total_apples_by_month_expected():
   },
   {
     "name": "シナノドルチェ",
-    "quantity": [
+    "data": [
       1,
       1,
       0,
@@ -159,14 +123,6 @@ def total_apples_by_month_expected():
 class TestTotalApplesByMonth:
     """ total_apples_by_month()のテスト """
 
-    def test_直接呼ぶ(self, total_apples_by_month_expected):
-        from apps.api.views import total_apples_by_month
-
-        request = RequestFactory()
-        actual = total_apples_by_month(request)
-
-        assert actual.content.decode('utf-8') == total_apples_by_month_expected
-
-    def test_Client経由で呼ぶ(self, client, total_apples_by_month_expected):
+    def test_get(self, client, total_apples_by_month_expected):
         actual = client.get('/api/v1/month/')
         assert actual.content.decode('utf-8') == total_apples_by_month_expected

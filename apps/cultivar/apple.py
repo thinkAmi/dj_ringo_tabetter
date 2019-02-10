@@ -1,6 +1,6 @@
 import os
 import yaml
-from dj_ringo_tabetter.settings import BASE_DIR
+from django.conf import settings
 
 
 class Apple:
@@ -9,7 +9,7 @@ class Apple:
 
     def load_cultivars(self) -> dict:
         """ プロジェクト直下にあるapples.yamlから品種名を取得する """
-        with open(os.path.join(BASE_DIR, 'apples.yaml'), 'r', encoding='utf-8') as f:
+        with open(os.path.join(settings.BASE_DIR, 'apples.yaml'), 'r', encoding='utf-8') as f:
             cultivars = yaml.load(f)
         return cultivars
 

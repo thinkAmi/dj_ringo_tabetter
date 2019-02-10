@@ -16,9 +16,14 @@ Including another URLconf
 
 from django.urls import path, include
 from django.contrib import admin
+from django.views.generic.base import RedirectView
+from django.urls import reverse_lazy
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('apps.api.urls')),
     path('hc/', include('apps.highcharts.urls')),
+
+    # トップにアクセスした時は、Highchartsの合計ページへリダイレクト
+    path('', RedirectView.as_view(url=reverse_lazy('highcharts:total'))),
 ]

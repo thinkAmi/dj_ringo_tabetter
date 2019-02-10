@@ -5,7 +5,7 @@ class TestApple:
     """ Appleクラスのテスト """
 
     def test_get_color_品種が存在する場合(self):
-        from libs.cultivars import Apple
+        from apps.cultivar.apple import Apple
 
         sut = Apple()
         sut.cultivars = [
@@ -18,7 +18,7 @@ class TestApple:
         assert actual == 'Gold'
 
     def test_get_color_品種が存在しない場合(self):
-        from libs.cultivars import Apple
+        from apps.cultivar.apple import Apple
 
         sut = Apple()
         sut.cultivars = [

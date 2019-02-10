@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+import dj_database_url
+from dotenv import load_dotenv
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -25,7 +28,7 @@ SECRET_KEY = 'm+f+kga!2bms@1ggh*8u^x@clljcrfbv8m)(o=b1ftpu$+a%6)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'ringo-tabetter.herokuapp.com']
 
 
 # Application definition
@@ -38,9 +41,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jinja',
-    'apps.tweets',
-    'apps.api',
-    'apps.highcharts',
+    'apps.tweets.apps.TweetsConfig',
+    'apps.api.apps.ApiConfig',
+    'apps.highcharts.apps.HighChartsConfig',
+    'apps.cultivar.apps.CultivarConfig',
 )
 # 開発環境がWindowsでgunicornが使えないことから、
 # herokuのみgunicornを使えるように設定
@@ -64,9 +68,7 @@ ROOT_URLCONF = 'dj_ringo_tabetter.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django_jinja.backend.Jinja2',
-        'DIRS': [
-            os.path.join(BASE_DIR,  'templates'),
-        ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,7 +92,6 @@ WSGI_APPLICATION = 'dj_ringo_tabetter.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 # dj_database_urlによるDatabase設定
-import dj_database_url
 # Heroku環境には`DYNO`環境変数がある前提
 if 'DYNO' in os.environ:
     # Heroku環境
@@ -152,11 +153,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-# TODO 現段階では環境設定ができているため、ひとまずコメントアウト
 # dotenvでTwitterAPIのkeyやsecretを環境変数にセットしておく
 # ここで書いておけば、commandsなどでも有効になる
-from dotenv import load_dotenv
-load_dotenv(os.path.join(BASE_DIR, '.env'))
+# 開発環境のときだけ実施
+if 'DYNO' not in os.environ:
+    load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # # Herokuでstaticファイルを配信するためのwhitenoise向けの設定
