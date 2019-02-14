@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_jinja',
     'apps.tweets.apps.TweetsConfig',
     'apps.api.apps.ApiConfig',
     'apps.highcharts.apps.HighChartsConfig',
@@ -67,7 +66,7 @@ ROOT_URLCONF = 'dj_ringo_tabetter.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django_jinja.backend.Jinja2',
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -77,13 +76,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-            'match_extension': '.jinja2',
+            'environment': 'dj_ringo_tabetter.jinja2.environment',
         }
     },
 ]
-
-# デフォルトのjinja2テンプレートの拡張子
-DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja2'
 
 WSGI_APPLICATION = 'dj_ringo_tabetter.wsgi.application'
 
