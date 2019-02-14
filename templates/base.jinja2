@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>りんごたべたー</title>
+    <link rel='stylesheet' href={{ static('css/vendor/bootstrap/4.2.1/bootstrap.min.css') }}>
+
+    {% block vendor_js %}{% endblock %}
+
+    {% block js %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">りんごたべたー</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                {% block title_link_total %}
+                {% endblock %}
+            </li>
+            <li class="nav-item">
+                {% block title_link_total_by_month %}
+                {% endblock %}
+            </li>
+        </ul>
+    </div>
+</nav>
+<div id='main'>
+    <div id='container'>
+        {% block main %}
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'base.jinja2' %}
+
+{% block title_link_total %}
+    <a class="nav-link" href="{{ url('highcharts:total') }}">全体</a>
+{% endblock %}
+
+{% block title_link_total_by_month %}
+    <a class="nav-link" href="{{ url('highcharts:total_by_month') }}">月別</a>
+{% endblock %}
+
+{% block vendor_js %}
+    <script src={{ static('js/vendor/highcharts/7.0.3/highcharts.js') }}></script>
+{% endblock %}

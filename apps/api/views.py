@@ -1,62 +1,76 @@
-from django.http import HttpResponse
-from django.db import models
-import json
-from collections import OrderedDict
+from django.http import JsonResponse
+from django.views import View
+
+from apps.cultivar.apple import Apple
 from apps.tweets.models import Tweets
-from libs.cultivars import Apple
-
-def render_json_response(request, data, status=None):
-    '''responseをJSONで返す'''
-    json_str = json.dumps(data, ensure_ascii=False, indent=2)
-    response = HttpResponse(json_str, content_type='application/json; charset=utf-8', status=status)
-    return response
 
 
-def total_apples(request):
-    '''リンゴの品種別合計数量を返す'''
-    results = []
-    apples = Apple()
+class RingoJsonResponse(JsonResponse):
+    """ ringo-tabetter用設定を行ったJsonResponseオブジェクト(薄いラッパー) """
 
-    # valuesで取得したい項目、annotateで別途集計したい項目をそれぞれ取得できる
-    for tweet in Tweets.objects.values('name').annotate(quantity=models.Count('name')):
+    def __init__(self, data):
+        """
 
-        apple_dict = OrderedDict([
-            ('name', tweet['name']),
-            ('quantity', tweet['quantity']),
-            ('color', apples.get_color(tweet['name']))
-        ])
-        results.append(apple_dict)
-
-    return render_json_response(request, results)
+        :param data: JSON化するデータ
+        """
+        super().__init__(data=data,
+                         safe=False,
+                         json_dumps_params={'ensure_ascii': False, 'indent': 2})
 
 
-def total_apples_by_month(request):
-    '''リンゴの月別品種別合計数量を返す'''
-    results = []
-    apples = Apple()
-    tweets = Tweets.objects.extra(select={ 'month': "date_part('month', tweeted_at)::int" }) \
-        .values('name', 'month').annotate(quantity=models.Count('name')).order_by('name', 'month')
+# -------------
+# Highcharts用
+# -------------
 
-    # DBで縦持ちしているものをHighchartsのために横持ちにする
-    name = tweets[0]['name']
-    quantities = [0] * 12
+class TotalApplesView(View):
+    """ リンゴの品種別合計数量を返すView """
 
-    for tweet in tweets:
-        if name != tweet['name']:
-            results.append(OrderedDict([
-                ('name', name),
-                ('quantity', quantities),
-                ('color', apples.get_color(name))
-            ]))
+    http_method_names = ["get"]
 
-            name = tweet['name']
-            quantities = [0] * 12
+    def get(self, request, *args, **kwargs) -> RingoJsonResponse:
+        results = []
+        apples = Apple()
 
-        quantities[tweet['month'] - 1] = tweet['quantity']
+        for tweet in Tweets.calculate_total_by_name().all():
+            apple_dict = dict(
+                name=tweet['name'],
+                y=tweet['quantity'],
+                color=apples.get_color(tweet['name']),
+            )
+            results.append(apple_dict)
+        return RingoJsonResponse(results)
 
-    results.append(OrderedDict([
-        ('name', name),
-        ('quantity', quantities),
-        ('color', apples.get_color(name))
-    ]))
-    return render_json_response(request, results)
+
+class TotalApplesByMonthView(View):
+    """ リンゴの月別品種別合計数量を返すView """
+
+    http_method_names = ["get"]
+
+    def get(self, request, *args, **kwargs) -> RingoJsonResponse:
+        results = []
+        apples = Apple()
+        tweets = Tweets.calculate_total_by_name_and_month()
+
+        # DBで縦持ちしているものをHighchartsのために横持ちにする
+        name = tweets[0]['name']
+        quantities = [0] * 12
+
+        for tweet in tweets:
+            if name != tweet['name']:
+                results.append({
+                    'name': name,
+                    'data':  quantities,
+                    'color': apples.get_color(name),
+                })
+
+                name = tweet['name']
+                quantities = [0] * 12
+
+            quantities[tweet['month'] - 1] = tweet['quantity']
+
+        results.append({
+            'name': name,
+            'data':  quantities,
+            'color': apples.get_color(name),
+        })
+        return RingoJsonResponse(results)
