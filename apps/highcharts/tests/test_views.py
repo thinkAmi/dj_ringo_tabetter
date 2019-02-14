@@ -1,14 +1,15 @@
-class TestTotal:
-    """ total() のテスト"""
-
-    def test_clientでアクセス(self, client):
-        actual = client.get('/hc/total')
-        assert actual.status_code == 200
+import pytest
+from django.urls import reverse
 
 
-class TestTotalByMonth:
-    """ total_by_month() のテスト """
+class TestViewForHighcharts:
+    """ HighchartsのViewテスト """
 
-    def test_clientでアクセス(self, client):
-        actual = client.get('/hc/total-by-month')
-        assert actual.status_code == 200
+    @pytest.mark.parametrize('url, expected_status_code', [
+        (reverse('highcharts:total'), 200),
+        (reverse('highcharts:total_by_month'), 200)
+    ])
+    def test_it(self, client, url, expected_status_code):
+        # 単に parametrize を使いたかっただけ...
+        actual = client.get(url)
+        assert actual.status_code == expected_status_code
