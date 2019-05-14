@@ -20,38 +20,12 @@
 
 　
 # 開発環境
-- Windows7 x64
-- Python 3.4.3 x86
-- PostgreSQL 9.4.4 x64
-- IntelliJ IDEA 14.1.4
+- Mac
+- Python 3.7.2
+  - Django 2.2.1
+- PostgreSQL 10.6
 
-　
-# 使用しているPythonパッケージと目的
-
-- DjangoでJinja2テンプレートを使うため
- - Django 1.8.5
- - Jinja2 2.8
- - django-jinja 1.4.1
-- りんご品種を書いたYAMLファイルを読み込むため
- - PyYAML 3.11
-- Heroku Postgresのため
- - dj-database-url 0.3.0
- - psycopg2 2.6.1
-- TwitterAPI用
- - tweepy 3.4.0
-- ローカルでのTwitter API Keyの設定用
- - django-dotenv 1.3.0
-   - Herokuでは環境変数へ設定
-- Twitterのcreated_atにTimezoneを持たせるため
- - pytz 2015.4
-- エラー発生時にエラーメッセージをslackへpostするため
- - slacker 0.7.4
-- Herokuでの動作用
-  - gunicorn 19.3.0
-    - gunicornはWindowsでは動作しないので、Heroku上のみ
-  - whitenoise 2.0.3
-
-　
+　  
 # セットアップ
 1. git clone
 2. `heroku create <your application name>`
@@ -61,14 +35,37 @@
 6. `heroku run python manage.py migrate`
 7. Heroku Schedulerを追加、`python manage.py gather_tweets`と設定
 
-　
+　  
+
+# 開発環境DBのセットアップ(Docker使用)
+
+```
+# デフォルトのポート 5432はすでに使われているので、別のポート(19876)をDocker上の 5432 につなげる
+$ docker run --name ringo_pg -p 19876:5432 -e POSTGRES_USER=ringo -e POSTGRES_PASSWORD=postgres -d postgres:10.6
+
+# コンテナ起動
+docker start ringo_pg
+
+# データベースを作成
+psql -U ringo -W -p 19876 -h localhost -c "CREATE DATABASE ringo_tabetter_py;"
+```
+
+　  
+
+# テスト
+
+```
+$ python -m pytest
+```
+
+　  
 # ライセンス
 MIT
 
-　
+　  
 # ブログ記事
 - [Python + Django + Highcharts + Herokuで食べたリンゴの割合をグラフ化してみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2015/08/26/055717)
-
+- [Python3.4 & Django1.8な個人アプリを、Python3.7 & Django 2.1 へとアップデートした - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2019/02/15/003051)
 
 　
 # 過去に作った似たようなもの
