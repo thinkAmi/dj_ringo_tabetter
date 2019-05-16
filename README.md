@@ -25,6 +25,18 @@
   - Django 2.2.1
 - PostgreSQL 10.6
 
+また、パッケージの一括アップデートは、 `pip-review` を使用しています。GitHubのセキュリティアラートへの対応のためです。  
+https://github.com/jgonggrijp/pip-review
+
+```
+# アップデートがあるかを確認
+$ pip-review
+
+# 自動で更新
+$ pip-review --auto
+```
+
+
 　  
 # セットアップ
 1. git clone
