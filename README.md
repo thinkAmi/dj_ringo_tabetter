@@ -78,11 +78,13 @@ MIT
 # ブログ記事
 - [Python + Django + Highcharts + Herokuで食べたリンゴの割合をグラフ化してみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2015/08/26/055717)
 - [Python3.4 & Django1.8な個人アプリを、Python3.7 & Django 2.1 へとアップデートした - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2019/02/15/003051)
+- [WSL2 + Ubuntu 22.04.1 LTS上のDjangoアプリを、JetBrains Gateway + PyCharmにて開発し、Herokuにpushできるようにしてみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/11/220335)
 
 　
 # 過去に作った似たようなもの
+
 - Ruby版
- - [thinkAmi/ringo-tabetter · GitHub](https://github.com/thinkAmi/ringo-tabetter)
+   - [thinkAmi/ringo-tabetter · GitHub](https://github.com/thinkAmi/ringo-tabetter)
 - C#版
- - [thinkAmi/RingoTabetter · GitHub](https://github.com/thinkAmi/RingoTabetter)
- - [thinkAmi/RingoTabetterApi · GitHub](https://github.com/thinkAmi/RingoTabetterApi)
+   - [thinkAmi/RingoTabetter · GitHub](https://github.com/thinkAmi/RingoTabetter)
+   - [thinkAmi/RingoTabetterApi · GitHub](https://github.com/thinkAmi/RingoTabetterApi)
