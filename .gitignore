@@ -6,6 +6,9 @@ Scripts/
 pyvenv.cfg
 pip-selfcheck.json
 
+#### backup files
+*.dump
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
