@@ -23,10 +23,10 @@ class Tweets(models.Model):
 
             PostgreSQLの関数を使っているため、SQLiteなどでは動作しない
         """
-        return cls.objects.extra(select={'month': "date_part('month', tweeted_at)::int"}) \
-                          .values('name', 'month') \
-                          .annotate(quantity=models.Count('name')) \
-                          .order_by('name', 'month')
+        return cls.objects.extra(select={'month': "strftime('%m', tweeted_at)"}) \
+            .values('name', 'month') \
+            .annotate(quantity=models.Count('name')) \
+            .order_by('name', 'month')
 
 
 class LastSearch(models.Model):
