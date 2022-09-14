@@ -79,6 +79,7 @@ MIT
 - [Python + Django + Highcharts + Herokuで食べたリンゴの割合をグラフ化してみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2015/08/26/055717)
 - [Python3.4 & Django1.8な個人アプリを、Python3.7 & Django 2.1 へとアップデートした - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2019/02/15/003051)
 - [WSL2 + Ubuntu 22.04.1 LTS上のDjangoアプリを、JetBrains Gateway + PyCharmにて開発し、Herokuにpushできるようにしてみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/11/220335)
+- [Python3.7 & Django 2.1 な個人アプリを Python 3.10 & Django 4.1 へとアップデートした - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/14/215942)
 
 　
 # 過去に作った似たようなもの
