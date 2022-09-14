@@ -173,3 +173,6 @@ if 'DYNO' not in os.environ:
 STATIC_ROOT = 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Django3.2以降の対応：主キーのフィールドを明示的に設定
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
