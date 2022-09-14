@@ -19,14 +19,14 @@ def total_apples_expected():
 
     return '''[
   {
-    "name": "シナノドルチェ",
-    "y": 2,
-    "color": "AntiqueWhite"
-  },
-  {
     "name": "シナノゴールド",
     "y": 5,
     "color": "Gold"
+  },
+  {
+    "name": "シナノドルチェ",
+    "y": 2,
+    "color": "AntiqueWhite"
   },
   {
     "name": "フジ",
@@ -63,24 +63,6 @@ def total_apples_by_month_expected():
 
     return '''[
   {
-    "name": "フジ",
-    "data": [
-      1,
-      1,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
-    "color": "Red"
-  },
-  {
     "name": "シナノゴールド",
     "data": [
       1,
@@ -115,6 +97,24 @@ def total_apples_by_month_expected():
       0
     ],
     "color": "AntiqueWhite"
+  },
+  {
+    "name": "フジ",
+    "data": [
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "color": "Red"
   }
 ]'''
 

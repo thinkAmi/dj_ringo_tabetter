@@ -111,11 +111,10 @@ if 'DYNO' in os.environ:
 else:
     # 開発環境の場合、engineも渡さないとエラーとなる
     DATABASES = {
-        'default':
-            dj_database_url.config(
-                default='postgres://ringo:postgres@127.0.0.1:19876/ringo_tabetter_py',
-                engine=dj_database_url.SCHEMES['postgresql']
-            )
+        'default': {
+            'NAME': os.path.join(BASE_DIR, 'ringo.db'),
+            'ENGINE': 'django.db.backends.sqlite3',
+        }
     }
 
 
@@ -174,3 +173,6 @@ if 'DYNO' not in os.environ:
 STATIC_ROOT = 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Django3.2以降の対応：主キーのフィールドを明示的に設定
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

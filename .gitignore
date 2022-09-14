@@ -5,9 +5,12 @@
 Scripts/
 pyvenv.cfg
 pip-selfcheck.json
+env*/
 
 #### backup files
 *.dump
+dump.json
+ringo.db
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

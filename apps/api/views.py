@@ -66,7 +66,8 @@ class TotalApplesByMonthView(View):
                 name = tweet['name']
                 quantities = [0] * 12
 
-            quantities[tweet['month'] - 1] = tweet['quantity']
+            # SQLiteの場合、日付は文字列での表現なため、int()で数値に変換する
+            quantities[int(tweet['month']) - 1] = tweet['quantity']
 
         results.append({
             'name': name,
