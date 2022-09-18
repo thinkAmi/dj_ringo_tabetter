@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-import dj_database_url
 from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,7 +52,7 @@ if 'DYNO' in os.environ:
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,22 +99,12 @@ WSGI_APPLICATION = 'dj_ringo_tabetter.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# dj_database_urlによるDatabase設定
-# Heroku環境には`DYNO`環境変数がある前提
-if 'DYNO' in os.environ:
-    # Heroku環境
-    DATABASES = {
-        'default': dj_database_url.config()
+DATABASES = {
+    'default': {
+        'NAME': os.path.join(BASE_DIR, 'ringo.db'),
+        'ENGINE': 'django.db.backends.sqlite3',
     }
-
-else:
-    # 開発環境の場合、engineも渡さないとエラーとなる
-    DATABASES = {
-        'default': {
-            'NAME': os.path.join(BASE_DIR, 'ringo.db'),
-            'ENGINE': 'django.db.backends.sqlite3',
-        }
-    }
+}
 
 
 # Password validation

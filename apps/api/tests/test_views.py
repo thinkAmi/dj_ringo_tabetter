@@ -3,7 +3,7 @@
 from datetime import datetime
 
 import pytest
-import pytz
+from zoneinfo import ZoneInfo
 
 from apps.tweets.tests.factories import TweetsFactory
 
@@ -53,13 +53,13 @@ def total_apples_by_month_expected():
         # DateTimeField Tweets.tweeted_at received a naive datetime (2019-01-10 00:00:00)
         # while time zone support is active.
         TweetsFactory(name='フジ',
-                      tweeted_at=datetime(2019, i, 10, tzinfo=pytz.timezone("Asia/Tokyo")))
+                      tweeted_at=datetime(2019, i, 10, tzinfo=ZoneInfo("Asia/Tokyo")))
     for i in range(1, 3):
         TweetsFactory(name='シナノドルチェ',
-                      tweeted_at=datetime(2019, i, 10, tzinfo=pytz.timezone("Asia/Tokyo")))
+                      tweeted_at=datetime(2019, i, 10, tzinfo=ZoneInfo("Asia/Tokyo")))
     for i in range(1, 6):
         TweetsFactory(name='シナノゴールド',
-                      tweeted_at=datetime(2019, i, 10, tzinfo=pytz.timezone("Asia/Tokyo")))
+                      tweeted_at=datetime(2019, i, 10, tzinfo=ZoneInfo("Asia/Tokyo")))
 
     return '''[
   {
