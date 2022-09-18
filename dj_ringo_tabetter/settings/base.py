@@ -44,11 +44,6 @@ INSTALLED_APPS = (
     'apps.highcharts.apps.HighChartsConfig',
     'apps.cultivar.apps.CultivarConfig',
 )
-# 開発環境がWindowsでgunicornが使えないことから、
-# herokuのみgunicornを使えるように設定
-if 'DYNO' in os.environ:
-    INSTALLED_APPS += ('gunicorn',)
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
