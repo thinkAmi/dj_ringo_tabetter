@@ -1,0 +1,32 @@
+# .env
+.env
+.env_example
+
+# git
+.git
+.gitignore
+.idea
+
+# Docker
+Dockerfile
+.dockerignore
+
+# DB dumps
+dump.json
+latest.dump
+
+# venv
+env
+env_3_10_7
+env_3_10_7_1
+
+# pyenv
+.python-version
+
+# pytest
+.pytest_cache
+conftest.py
+pytest.ini
+
+# docs
+*.md
