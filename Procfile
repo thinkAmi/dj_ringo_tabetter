@@ -1,1 +1,0 @@
-web: gunicorn --env DJANGO_SETTINGS_MODULE=dj_ringo_tabetter.settings dj_ringo_tabetter.wsgi --log-file -

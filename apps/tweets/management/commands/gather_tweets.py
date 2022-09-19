@@ -2,8 +2,9 @@ import os
 import re
 import traceback
 from typing import List
+from zoneinfo import ZoneInfo
+from datetime import datetime
 
-import pytz
 import tweepy
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -13,7 +14,6 @@ from tweepy.cursor import ItemIterator
 from apps.cultivar.apple import Apple
 from apps.tweets.models import Tweets, LastSearch
 
-LOCAL_TIMEZONE = pytz.timezone('Asia/Tokyo')
 # 一日に200ツイートはしないはず...
 TWEET_COUNT = 200
 
@@ -105,7 +105,7 @@ class Command(BaseCommand):
             'name': cultivar['Name'],
             'tweet_id': twitter_status.id,
             'tweet': twitter_status.text,
-            'tweeted_at': LOCAL_TIMEZONE.localize(twitter_status.created_at)
+            'tweeted_at': twitter_status.created_at
         }
         t = Tweets(**arg)
         t.save()
