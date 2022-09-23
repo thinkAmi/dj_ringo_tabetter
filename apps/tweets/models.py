@@ -32,3 +32,4 @@ class Tweets(models.Model):
 class LastSearch(models.Model):
     """ 前回検索時の情報を持たせておくModel """
     prev_since_id = models.BigIntegerField('前回検索時のsince_id')
+    updated_at = models.DateTimeField('更新日時', auto_now=True)
