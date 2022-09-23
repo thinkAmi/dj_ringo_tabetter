@@ -47,7 +47,7 @@ class TestTwitter:
         sut.last_search = Mock()
         sut.last_search.prev_since_id = twitter  # コマンドラインから与えた status_id で検索
 
-        actual = sut.gather_tweets()
+        actual, newest_id = sut.fetch_tweets()
         assert len(actual) == 3
 
         assert actual[0].id > actual[1].id > actual[2].id, "idの降順に並んでいること"

@@ -5,7 +5,7 @@ from django.db.models.query import QuerySet
 class Tweets(models.Model):
     """ リンゴに関係するツイートを持つModel """
     name = models.CharField('リンゴ名', max_length=255)
-    tweet_id = models.BigIntegerField('Tweet ID')
+    tweet_id = models.BigIntegerField('Tweet ID', unique=True)
     tweet = models.CharField('ツイート内容', max_length=255)
     tweeted_at = models.DateTimeField('ツイート日時')
 
