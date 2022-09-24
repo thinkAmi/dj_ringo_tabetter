@@ -20,3 +20,4 @@ class Command(BaseCommand):
 
         response = client.get_me()
         print(response)
+        # => Response(data=<User id=*** name=thinkAmi username=thinkAmi>, includes={}, errors=[], meta={})

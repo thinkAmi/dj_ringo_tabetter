@@ -23,8 +23,8 @@ class Command(BaseCommand):
         self.last_search = self.get_last_search()
 
         tweets, newest_id = self.fetch_tweets()
-        if tweets and newest_id:
-            self.save_with_transaction(tweets, newest_id)
+        # if tweets and newest_id:
+        #     self.save_with_transaction(tweets, newest_id)
 
         print('finish')
 
@@ -55,9 +55,12 @@ class Command(BaseCommand):
         while True:
             counter += 1
 
-            # データがある時の型
-            # Response(data=[<Tweet id=*** text='***'>, ...], includes={}, errors=[],
-            # meta={'result_count': 5, 'newest_id': '***', 'oldest_id': '***', 'next_token': '***'})
+            # データがあり、かつ、ページ分割されている場合
+            # => Response(data=[<Tweet id=*** text='***'>, ...], includes={}, errors=[],
+            #    meta={'result_count': 5, 'newest_id': '***', 'oldest_id': '***', 'next_token': '***'})
+            # データはあるが、ページ分割されていない場合、metaにnext_tokenがない
+            # => Response(data=[<Tweet id=*** text='***'>, ...], includes={}, errors=[],
+            #    meta={'result_count': 1, 'newest_id': '***', 'oldest_id': '***'})
             response = self.fetch_tweets_from_api(pagination_token=pagination_token)
 
             # self.last_search.prev_since_id が最新の場合、レスポンスは以下になる
