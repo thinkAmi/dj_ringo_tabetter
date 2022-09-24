@@ -55,6 +55,7 @@ MIT
 - [WSL2 + Ubuntu 22.04.1 LTS上のDjangoアプリを、JetBrains Gateway + PyCharmにて開発し、Herokuにpushできるようにしてみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/11/220335)
 - [Python3.7 & Django 2.1 な個人アプリを Python 3.10 & Django 4.1 へとアップデートした - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/14/215942)
 - [WSL2 + Ubuntu 22.04.1 な環境上のDockerへ、既存のDjangoアプリを載せてみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/19/205521)
+- [Tweepyをアップデートしたタイミングで、使用するTwitter APIを v1.1 から v2 に切り替えてみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/24/121753)
 
 　
 # 過去に作った似たようなもの
