@@ -5,7 +5,7 @@ from django.db.models.query import QuerySet
 class Tweets(models.Model):
     """ リンゴに関係するツイートを持つModel """
     name = models.CharField('リンゴ名', max_length=255)
-    tweet_id = models.BigIntegerField('Tweet ID')
+    tweet_id = models.BigIntegerField('Tweet ID', unique=True)
     tweet = models.CharField('ツイート内容', max_length=255)
     tweeted_at = models.DateTimeField('ツイート日時')
 
@@ -32,3 +32,4 @@ class Tweets(models.Model):
 class LastSearch(models.Model):
     """ 前回検索時の情報を持たせておくModel """
     prev_since_id = models.BigIntegerField('前回検索時のsince_id')
+    updated_at = models.DateTimeField('更新日時', auto_now=True)
