@@ -1,0 +1,21 @@
+# ignore all
+*
+
+# upload list
+# directories
+!apps
+!dj_ringo_tabetter
+!static
+!templates
+
+# files
+!apples.yaml
+!Dockerfile
+!litestream.yml
+!manage.py
+!requirements.txt
+!ringo.db
+!run.sh
+
+# ignore
+**/*.pyc
