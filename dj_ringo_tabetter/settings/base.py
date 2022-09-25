@@ -27,8 +27,8 @@ SECRET_KEY = 'm+f+kga!2bms@1ggh*8u^x@clljcrfbv8m)(o=b1ftpu$+a%6)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'ringo-tabetter.herokuapp.com']
-
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'ringo-tabetter.herokuapp.com', 'ringo-tabetter-syqtxyot6q-an.a.run.app']
 
 # Application definition
 

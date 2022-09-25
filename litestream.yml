@@ -1,0 +1,4 @@
+dbs:
+  - path: /app/ringo.db
+    replicas:
+      - url: ${REPLICA_URL}
