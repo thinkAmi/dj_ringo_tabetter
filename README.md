@@ -15,7 +15,7 @@
 ```
 
 　  
-また、Herokuへデプロイしてあります。  
+また、Google Cloud の Cloud Run (+ カスタムドメイン) へデプロイしてあります。  
 [りんごたべたー](https://ringo-tabetter.thinkami.dev/hc/total)
 
 　
