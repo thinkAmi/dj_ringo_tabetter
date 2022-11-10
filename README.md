@@ -16,7 +16,7 @@
 
 　  
 また、Herokuへデプロイしてあります。  
-[りんごたべたー](http://ringo-tabetter.herokuapp.com/hc/total)
+[りんごたべたー](https://ringo-tabetter.thinkami.dev/hc/total)
 
 　
 # 開発環境
@@ -57,6 +57,7 @@ MIT
 - [WSL2 + Ubuntu 22.04.1 な環境上のDockerへ、既存のDjangoアプリを載せてみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/19/205521)
 - [Tweepyをアップデートしたタイミングで、使用するTwitter APIを v1.1 から v2 に切り替えてみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/24/121753)
 - [Djangoアプリを、Coogle Cloud の Cloud Run + Cloud Storage + Litestream な環境で動かしてみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/09/25/224406)
+- [Python + Django + Highcharts + Coogle Cloud Cloud Run + Cloud Storage + Litestream で食べたリンゴの割合をグラフ化してみた - メモ的な思考的な](https://thinkami.hatenablog.com/entry/2022/11/10/231010)
 
 　
 # 過去に作った似たようなもの
