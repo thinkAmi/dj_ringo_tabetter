@@ -22,7 +22,10 @@ else
 fi
 
 # マイグレーションを実行
-python manage.py migrate
+python manage.py migrate --settings dj_ringo_tabetter.settings.production
+
+# collect staticを実行
+python manage.py collectstatic --noinput --settings dj_ringo_tabetter.settings.production
 
 # レプリケーションしながらDjangoを起動
-exec litestream replicate -exec "python manage.py runserver 0.0.0.0:8080" -config /etc/litestream.yml
+exec litestream replicate -exec "python manage.py runserver 0.0.0.0:8080 --settings dj_ringo_tabetter.settings.production" -config /etc/litestream.yml
