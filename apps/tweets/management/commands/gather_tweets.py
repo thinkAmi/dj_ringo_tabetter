@@ -7,9 +7,12 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from slacker import Slacker
 from tweepy import Client
+from google.cloud import secretmanager
+import json
 
 from apps.cultivar.apple import Apple
 from apps.tweets.models import Tweets, LastSearch
+from django.conf import settings
 
 
 class Command(BaseCommand):
@@ -22,23 +25,41 @@ class Command(BaseCommand):
         self.cultivars = Apple().cultivars
         self.last_search = self.get_last_search()
 
+        print('start =====>')
         tweets, newest_id = self.fetch_tweets()
-        # if tweets and newest_id:
-        #     self.save_with_transaction(tweets, newest_id)
+        print(tweets)
+        if tweets and newest_id:
+            self.save_with_transaction(tweets, newest_id)
 
-        print('finish')
+        print('<===== finish')
 
     def get_last_search(self) -> LastSearch:
         """ 前回検索情報を取得する """
         return LastSearch.objects.first()
 
     def get_twitter_client(self):
+        twitter_tokens = self.fetch_secret_manager()
+
         return Client(
-            consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
-            consumer_secret=os.environ['TWITTER_CONSUMER_SECRET'],
-            access_token=os.environ['TWITTER_ACCESS_TOKEN'],
-            access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET']
+            consumer_key=twitter_tokens['twitter_consumer_key'],
+            consumer_secret=twitter_tokens['twitter_consumer_secret'],
+            access_token=twitter_tokens['twitter_access_token'],
+            access_token_secret=twitter_tokens['twitter_access_token_secret']
         )
+
+    def fetch_secret_manager(self):
+        if settings.DEBUG:
+            client = secretmanager.SecretManagerServiceClient.from_service_account_json('gcp_credential.json')
+        else:
+            # Cloud Run上であれば、認証情報は取得できている
+            client = secretmanager.SecretManagerServiceClient()
+
+        path = client.secret_version_path(os.environ['GCP_PROJECT_ID'], 'twitter_tokens', 'latest')
+        response = client.access_secret_version(name=path)
+        value = response.payload.data.decode('UTF-8')
+
+        # strからdictにする
+        return json.loads(value)
 
     def fetch_tweets(self):
         """ ツイートを取得する
@@ -82,7 +103,7 @@ class Command(BaseCommand):
 
     def fetch_tweets_from_api(self, pagination_token):
         return self.twitter_client.get_users_tweets(
-            id=os.environ['USER_ID'],
+            id=os.environ['TWITTER_USER_ID'],
             exclude=['retweets', ],
             tweet_fields=['created_at', ],
             since_id=self.last_search.prev_since_id,

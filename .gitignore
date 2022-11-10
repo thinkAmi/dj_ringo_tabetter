@@ -6,6 +6,7 @@ Scripts/
 pyvenv.cfg
 pip-selfcheck.json
 env*/
+gcp_credential.json
 
 #### backup files
 *.dump

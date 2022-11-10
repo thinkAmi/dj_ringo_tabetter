@@ -28,7 +28,7 @@ SECRET_KEY = 'm+f+kga!2bms@1ggh*8u^x@clljcrfbv8m)(o=b1ftpu$+a%6)'
 DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['127.0.0.1', 'ringo-tabetter.herokuapp.com', 'ringo-tabetter-syqtxyot6q-an.a.run.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'ringo-tabetter-syqtxyot6q-uw.a.run.app', 'ringo-tabetter.thinkami.dev']
 
 # Application definition
 
@@ -148,13 +148,15 @@ STATICFILES_DIRS = (
 # dotenvでTwitterAPIのkeyやsecretを環境変数にセットしておく
 # ここで書いておけば、commandsなどでも有効になる
 # 開発環境のときだけ実施
-if 'DYNO' not in os.environ:
+if DEBUG:
     load_dotenv(os.path.join(BASE_DIR, '.env'))
+# if 'DYNO' not in os.environ:
+#     load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # # Herokuでstaticファイルを配信するためのwhitenoise向けの設定
 # 内部でSTATIC_ROOTを見てるっぽいので、無いとエラーになる
-STATIC_ROOT = 'staticfiles'
+# STATIC_ROOT = 'staticfiles'
 
 # Django3.2以降の対応：主キーのフィールドを明示的に設定
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
